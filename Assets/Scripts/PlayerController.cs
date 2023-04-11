@@ -24,22 +24,26 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //player.AddForce(((Input.GetAxis("Horizontal") * -1) * 0.9f), 0, 0);
-        int speed = 5;
 
-        if (isWalking == false)
+        if (Input.GetAxisRaw("Horizontal") > 0 && isWalking == false)
         {
-            if (Input.GetAxisRaw("Horizontal") > 0)
-            {
 
-            }
-            else if (Input.GetAxisRaw("Horizontal") < 0)
-            {
+            player.gameObject.transform.position = new Vector3(player.position.x + 1, player.position.y, player.position.z);
+            isWalking = true;
 
-            }
-            
         }
+        else if (Input.GetAxisRaw("Horizontal") < 0 && isWalking == false)
+        {
+
+            player.gameObject.transform.position = new Vector3(player.position.x - 1, player.position.y, player.position.z);
+            isWalking = true;
 
 
+        }
+        else if (Input.GetAxisRaw("Horizontal") == 0)
+        {
+            isWalking = false;
+        }
 
 
         //player.gameObject.transform.Translate(movement );
@@ -54,13 +58,19 @@ public class PlayerController : MonoBehaviour
         }
         //Add "game over" screen
     }
+
     private void OnCollisionEnter(Collision collision)
+
     {
+        Debug.Log("Collision");
         if(collision.gameObject.tag == "Ground")
         {
             canJump = true;
         }
-
+        if (collision.gameObject.tag == "Wall")
+        {
+            player.velocity = Vector3.zero;
+        }
         if (collision.gameObject.tag == "Finish")
         {
             Destroy(player.gameObject);
@@ -75,6 +85,6 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        
+
     }
 }
