@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PistonRegisterer : MonoBehaviour
 {
-    GameObject piston;
+    public GameObject piston;
     // Start is called before the first frame update
     void Start()
     {

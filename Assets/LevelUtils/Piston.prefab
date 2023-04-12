@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7159035479890975833}
   - component: {fileID: 4147550250744446901}
   m_Layer: 0
-  m_Name: Cylinder (1)
+  m_Name: Haut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 4592631693886284825}
   - component: {fileID: 1143280595927768924}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Tube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 4923127200787034997}
   - component: {fileID: 6649295671701967224}
   m_Layer: 0
-  m_Name: Cylinder (2)
+  m_Name: Bras
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

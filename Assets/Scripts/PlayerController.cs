@@ -54,6 +54,10 @@ public class PlayerController : MonoBehaviour
             foreach (var p in GameManager.Instance.pistons)
             {
                 Debug.Log(p);
+                GameObject bras = p.transform.GetChild(0).gameObject;
+                Vector3 posBras = bras.transform.position;
+                bras.transform.position = new Vector3(posBras.x, posBras.y + 1, posBras.z);
+
             }
             canPush = false;
         }
