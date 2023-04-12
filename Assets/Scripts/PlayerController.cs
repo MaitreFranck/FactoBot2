@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float maxJump = 5;
     public float currentJump;
     private bool isWalking = false;
+    private bool canPush = true;
 
     void Start()
     {
@@ -44,6 +46,26 @@ public class PlayerController : MonoBehaviour
         {
             isWalking = false;
         }
+
+
+
+        if (Input.GetButtonDown("Action") && canPush)
+        {
+            foreach (var p in GameManager.Instance.pistons)
+            {
+                Debug.Log(p);
+            }
+            canPush = false;
+        }
+
+        if (Input.GetButtonUp("Action"))
+        {
+            canPush = true;
+        }
+
+
+
+
 
 
         //player.gameObject.transform.Translate(movement );
