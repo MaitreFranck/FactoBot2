@@ -15,6 +15,12 @@ public class PlayerController : MonoBehaviour
     public float currentJump;
     private bool isWalking = false;
     private bool canPush = true;
+    private bool onTapis = false;
+    private bool goingLeft;
+    private float t;
+    private float speed = 10000;
+    private float lastMove;
+    
 
     void Start()
     {
@@ -22,22 +28,26 @@ public class PlayerController : MonoBehaviour
         powerBar.UpdatePowerBar();
     }
 
-    
+
     void Update()
     {
         //player.AddForce(((Input.GetAxis("Horizontal") * -1) * 0.9f), 0, 0);
+        t += Time.deltaTime * speed;
 
         if (Input.GetAxisRaw("Horizontal") > 0 && isWalking == false)
         {
+            if (CheckMove(Vector2.right) == true)
+            {
+                //player.gameObject.transform.position = new Vector3(player.position.x + 1 * Time.deltaTime * 50, player.position.y, player.position.z);
 
-            player.gameObject.transform.position = new Vector3(player.position.x + 1, player.position.y, player.position.z);
-            isWalking = true;
-
+                transform.position = Vector3.Lerp(player.gameObject.transform.position, new Vector3(player.position.x + 1, player.position.y, player.position.z), t);
+                isWalking = true;
+            }
         }
         else if (Input.GetAxisRaw("Horizontal") < 0 && isWalking == false)
         {
 
-            player.gameObject.transform.position = new Vector3(player.position.x - 1, player.position.y, player.position.z);
+            transform.position = Vector3.Lerp(player.gameObject.transform.position, new Vector3(player.position.x - 1, player.position.y, player.position.z), t);
             isWalking = true;
 
 
@@ -56,7 +66,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log(p);
                 GameObject bras = p.transform.GetChild(0).gameObject;
                 Vector3 posBras = bras.transform.position;
-                bras.transform.position = new Vector3(posBras.x, posBras.y + 1, posBras.z);
+                bras.transform.position = new Vector3(posBras.x + 1, posBras.y, posBras.z);
 
             }
             canPush = false;
@@ -68,7 +78,22 @@ public class PlayerController : MonoBehaviour
         }
 
 
-
+        if (onTapis)
+        {
+            //player.gameObject.transform.position = new Vector3(player.position.x + 1 * Time.deltaTime * 50, player.position.y, player.position.z);
+            if (Time.time - lastMove > 1f)
+            {
+                lastMove = Time.time;
+                if (goingLeft)
+                {
+                    transform.position = Vector3.Lerp(player.gameObject.transform.position, new Vector3(player.position.x + 1, player.position.y, player.position.z), t);
+                }
+                else
+                {
+                    transform.position = Vector3.Lerp(player.gameObject.transform.position, new Vector3(player.position.x - 1, player.position.y, player.position.z), t);
+                }                
+            }
+        }
 
 
 
@@ -77,7 +102,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && canJump && currentJump > 0)
         {
-            player.AddForce(0, 650, 0);
+            player.AddForce(0, 750, 0);
             currentJump = currentJump - 1;
             canJump = false;
             powerBar.UpdatePowerBar();
@@ -85,14 +110,45 @@ public class PlayerController : MonoBehaviour
         //Add "game over" screen
     }
 
+    private bool CheckMove(Vector2 direction)
+    {
+        //RaycastHit2D hit = Physics2D.Raycast(player.position, direction, 2f);
+        //RaycastHit hit2 = Physics2D.Raycast(player.position, Vector3.right, 2f);
+        //Debug.Log(hit.collider);
+        //Debug.DrawRay(player.position, direction, Color.blue);
+        //if (hit.collider != null)
+        //{
+        //return false;
+        //}
+        return true;
+    }
+
+
+
     private void OnCollisionEnter(Collision collision)
 
     {
         Debug.Log("Collision");
-        if(collision.gameObject.tag == "Ground")
+        if (collision.gameObject.tag == "Ground")
         {
             canJump = true;
         }
+
+        if (collision.gameObject.tag == "TapisRoulant")
+        {
+            canJump = true;
+            onTapis = true;
+            if (collision.gameObject.GetComponent<TapisRegisterer>().left)
+            {
+                goingLeft = true;
+            }
+            else
+            {
+                goingLeft = false;
+            }
+
+        }
+
         if (collision.gameObject.tag == "Wall")
         {
             player.velocity = Vector3.zero;
@@ -109,8 +165,10 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    private void OnTriggerEnter(Collider other)
-    {
 
+    private void OnCollisionExit(Collision collision)
+    {
+        onTapis = false;
     }
+
 }

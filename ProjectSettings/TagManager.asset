@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - Wall
+  - Pistons
+  - TapisRoulant
   layers:
   - Default
   - TransparentFX

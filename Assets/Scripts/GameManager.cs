@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public int maxJumps;
     public GameObject startingPoint;
     public List<GameObject> pistons;
+    public List<GameObject> tapis;
 
     private static GameManager instance = null;
     public static GameManager Instance => instance;
@@ -25,18 +26,11 @@ public class GameManager : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject);
     }
-    // Start is called before the first frame update
     void Start()
     {
         playerController.maxJump = maxJumps;
         playerController.player.transform.position = startingPoint.transform.position;
         startingPoint.SetActive(false);
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
